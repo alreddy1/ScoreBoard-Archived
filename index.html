@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="scoreBoard">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Score Board</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="angular.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row py-5">
+            <h3>IND vs AUS
+                <small class="text-muted">ODI</small>
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-md-6" ng-controller="TeamACtrl as teamA">
+                <h5>India</h5>
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="player in  teamA.myTeam">
+                        <tr>
+                            <td>{{$index+1}}</td>
+                            <td>{{player.name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-6" ng-controller="TeamBCtrl as teamB">
+                <h5>Australia</h5>
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="player in  teamB.myTeam">
+                        <tr>
+                            <td>{{$index+1}}</td>
+                            <td>{{player.name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container" ng-controller="BowlingCtrl as bowl">
+        <h6>Batting</h6>
+        <div class="container" ng-controller="BattingCtrl as bat">
+            <p>S Tendulkar : {{bowl.firstBall}}</p>
+            <p>V Sehwag : </p>
+        </div>
+        <hr>
+        <p>Current over details:</p>
+
+        <div class="container">
+          <div class="row no-gutters">
+            <div class="col-md-1">
+              <select ng-model="bowl.extraRun">
+                <option value="">Default</option>
+                <option value="Wd">Wide</option>
+                <option value="B">Bye</option>
+                <option value="LB">Leg Bye</option>
+                <option value="NB">No Ball</option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              <select ng-model="bowl.runsScored">
+                <option value="">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" >4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </div>
+            <button class="btn btn-success btn-sm" ng-click="bowl.overDetails(bowl.runsScored,bowl.extraRun)">Ok</button>
+            <hr>
+            <button class="btn btn-sm btn-warning" ng-click="bowl.overCompleted()">Over</button>
+          </div>
+        </div>
+
+
+        <hr>
+
+        <h6>Bowling</h6>
+        <p>Bret Lee :
+            <!-- <span>
+                {{bowl.firstBall+bowl.firstBallExtra}},
+                {{bowl.secondBall+bowl.secondBallExtra}},
+                {{bowl.thirdBall+bowl.thirdBallExtra}},
+                {{bowl.fourthBall+bowl.fourthBallExtra}},
+                {{bowl.fifthBall+bowl.fifthBallExtra}},
+                {{bowl.sixthBall+bowl.sixthBallExtra}}
+
+            </span> -->
+            <span class="loading loading-spinner-small inline-block"></span>
+
+        </p>
+
+        <!-- <p ng-click="click">{{bowl.firstBall+bowl.firstBallExtra}}</p> -->
+        <!-- <div class="row">
+                <div class="col-sm-1">
+                    <input type="text" ng-model="bowl.firstBall">
+                </div>
+                <div class="col-sm-1">
+                <select ng-model="bowl.firstBallExtra">
+                    <option value="Wd">Wide</option>
+                    <option value="B">Bye</option>
+                    <option value="LB">Leg Bye</option>
+                    <option value="NB">No Ball</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="text" ng-model="bowl.secondBall">
+            </div>
+            <div class="col-md-1">
+                <select ng-model="bowl.secondBallExtra">
+                    <option value="Wd">Wide</option>
+                    <option value="B">Bye</option>
+                    <option value="LB">Leg Bye</option>
+                    <option value="NB">No Ball</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="text" ng-model="bowl.thirdBall">
+            </div>
+            <div class="col-md-1">
+                <select ng-model="bowl.thirdBallExtra">
+                    <option value="Wd">Wide</option>
+                    <option value="B">Bye</option>
+                    <option value="LB">Leg Bye</option>
+                    <option value="NB">No Ball</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="text" ng-model="bowl.fourthBall" >
+            </div>
+            <div class="col-md-1">
+                <select ng-model="bowl.fourthBallExtra" >
+                    <option value="Wd">Wide</option>
+                    <option value="B">Bye</option>
+                    <option value="LB">Leg Bye</option>
+                    <option value="NB">No Ball</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="text" ng-model="bowl.fifthBall">
+            </div>
+            <div class="col-md-1">
+                <select ng-model="bowl.fifthBallExtra">
+                    <option value="Wd">Wide</option>
+                    <option value="B">Bye</option>
+                    <option value="LB">Leg Bye</option>
+                    <option value="NB">No Ball</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="text" ng-model="bowl.sixthBall">
+            </div>
+            <div class="col-md-1">
+                <select ng-model="bowl.sixBallExtra">
+                    <option value="Wd">Wide</option>
+                    <option value="B">Bye</option>
+                    <option value="LB">Leg Bye</option>
+                    <option value="NB">No Ball</option>
+                </select>
+            </div>
+        </div> -->
+        <hr>
+    </div>
+</body>
+</html>
